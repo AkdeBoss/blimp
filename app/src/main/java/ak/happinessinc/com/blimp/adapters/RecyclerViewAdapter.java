@@ -124,7 +124,11 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewHolde
         notifyItemRemoved(position);
     }
 
-
+    public void swap(ArrayList<PictureMetaData> data){
+        itemList.clear();
+        itemList.addAll(data);
+        notifyDataSetChanged();
+    }
 
 
 }

@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ak.happinessinc.com.blimp.adapters.RecyclerViewAdapter;
@@ -132,10 +133,8 @@ public class GalleryFragment extends Fragment implements ActionMode.Callback,Rec
     }
 
     public void refresh(){
-//        list.clear();
-//        list=getAllItemList();
-//        recyclerAdapter.notifyDataSetChanged();
-    }
+recyclerAdapter.swap(getAllItemList());
+        }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -170,9 +169,23 @@ public class GalleryFragment extends Fragment implements ActionMode.Callback,Rec
         File folder = new File(Environment.getExternalStorageDirectory().getPath()+"/Blimp/");
         allFiles = folder.listFiles();
             for(int i=0;i<allFiles.length;i++){
-                allItems.add(i,new PictureMetaData(Uri.fromFile(allFiles[i])));
+                allItems.add(new PictureMetaData(Uri.fromFile(allFiles[i])));
             }
 
+        return allItems;
+    }
+    File[] newFiles;
+    private ArrayList<PictureMetaData> getUpdatedItemList(){
+        ArrayList<PictureMetaData> allItems = new ArrayList<>();
+        File folder = new File(Environment.getExternalStorageDirectory().getPath()+"/Blimp/");
+        newFiles = folder.listFiles();
+        for(int i=0;i<newFiles.length;i++){
+         //  if (! list.equals(new PictureMetaData(Uri.fromFile(newFiles[i]))) && list.size()<newFiles.length) {
+                allItems.add(new PictureMetaData(Uri.fromFile(newFiles[i])));
+                System.out.println(allItems.get(i).getUri().toString());
+         //   }
+        }
+        allItems.removeAll(list);
         return allItems;
     }
 

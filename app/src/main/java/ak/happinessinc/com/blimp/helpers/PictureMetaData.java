@@ -46,4 +46,14 @@ public class PictureMetaData implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(imageUri, flags);
     }
+
+    @Override
+    public String toString() {
+        return "Uri : " + this.getUri().toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof PictureMetaData) && this.getUri() == ((PictureMetaData)obj).getUri();
+    }
 }
