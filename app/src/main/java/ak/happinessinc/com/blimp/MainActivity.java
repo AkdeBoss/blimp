@@ -21,6 +21,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import ak.happinessinc.com.blimp.adapters.TabAdapter;
+import ak.happinessinc.com.blimp.imgurmodel.ImageResponse;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         pagerTabStrip.setTextSize(TypedValue.COMPLEX_UNIT_PX,40);
 
     }
+
 
 
 }

@@ -21,12 +21,12 @@ import ak.happinessinc.com.blimp.helpers.StaticHelper;
 public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
-    public ImageView countryPhoto;
+    public ImageView pictureView;
 
     public RecyclerViewHolder(View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
-        countryPhoto = (ImageView)itemView.findViewById(R.id.galleryActivity_photoiMageView);
+        pictureView = (ImageView)itemView.findViewById(R.id.galleryActivity_photoiMageView);
     }
     ArrayList<PictureMetaData> list;
     @Override
@@ -34,7 +34,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
             if(!StaticHelper.Flags.SELECT_FLAG) {
                 Intent intent = new Intent(view.getContext(), FullscreenActivity.class);
                 list = new ArrayList<>();
-                list.add(new PictureMetaData((Uri) countryPhoto.getTag()));
+                list.add(new PictureMetaData((Uri) pictureView.getTag()));
                 intent.putParcelableArrayListExtra("pics", list);
                 view.getContext().startActivity(intent);
 

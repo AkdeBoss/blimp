@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.SyncStateContract;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,6 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,13 @@ import java.util.List;
 import ak.happinessinc.com.blimp.adapters.RecyclerViewAdapter;
 import ak.happinessinc.com.blimp.helpers.PictureMetaData;
 import ak.happinessinc.com.blimp.helpers.StaticHelper;
+import ak.happinessinc.com.blimp.imgurmodel.ImageResponse;
+import ak.happinessinc.com.blimp.imgurmodel.Upload;
+import ak.happinessinc.com.blimp.services.UploadService;
 import ak.happinessinc.com.blimp.viewholders.RecyclerViewHolder;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 /**
@@ -94,32 +103,34 @@ public class GalleryFragment extends Fragment implements ActionMode.Callback,Rec
         if (isVisibleToUser) {refresh(); }
     }
 
-    private GridLayoutManager lLayout;
+    GridLayoutManager gridLayoutManager;
+
     RecyclerView recyclerView;
     RecyclerViewAdapter recyclerAdapter;
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
     ArrayList<PictureMetaData> list;
+    View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_gallery, container, false);
         list=getAllItemList();
-        lLayout = new GridLayoutManager(getContext(), 4);
+        gridLayoutManager = new GridLayoutManager(getContext(),4,GridLayoutManager.VERTICAL, false);
+        gridLayoutManager.setSmoothScrollbarEnabled(true);
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(lLayout);
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerAdapter= new RecyclerViewAdapter(getContext(), list);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.addOnItemTouchListener(this);
         gestureDetector = new GestureDetectorCompat(getActivity().getApplicationContext(), new simpleGestureListener());
-
+        view=rootView;
         return rootView;
     }
 
     public void refresh(){
-        Toast.makeText(getActivity().getApplicationContext(),"yo",Toast.LENGTH_LONG).show();
         list=getAllItemList();
         recyclerAdapter.notifyDataSetChanged();
     }
@@ -153,16 +164,12 @@ public class GalleryFragment extends Fragment implements ActionMode.Callback,Rec
     File[] allFiles;
 
     private ArrayList<PictureMetaData> getAllItemList(){
-        ArrayList<PictureMetaData> allItems = new ArrayList<PictureMetaData>();
-
+        ArrayList<PictureMetaData> allItems = new ArrayList<>();
         File folder = new File(Environment.getExternalStorageDirectory().getPath()+"/Blimp/");
         allFiles = folder.listFiles();
-
-
             for(int i=0;i<allFiles.length;i++){
                 allItems.add(i,new PictureMetaData(Uri.fromFile(allFiles[i])));
             }
-
 
         return allItems;
     }
@@ -198,7 +205,15 @@ public class GalleryFragment extends Fragment implements ActionMode.Callback,Rec
                  selectedItemPositions =
                         recyclerAdapter.getSelectedItems();
                 for(int i= selectedItemPositions.size()-1;i>=0;i--) {
-                    //sync
+
+                            Upload upload; // Upload object containging image and meta data
+                            File chosenFile; //chosen file from intent
+                            upload = new Upload();
+                            chosenFile = new File(recyclerAdapter.getItem(i).getUri().getPath());
+                            upload.image = chosenFile;
+                            upload.title = "blimp"+i;
+                            upload.description = "it's on the air!!!";
+                            new UploadService(getContext()).Execute(upload,new UiCallback());
                 }
                 actionMode.finish();
                 return true;
@@ -280,6 +295,22 @@ public class GalleryFragment extends Fragment implements ActionMode.Callback,Rec
             int idx = recyclerView.getChildPosition(view);
             myToggleSelection(idx);
             super.onLongPress(e);
+        }
+    }
+
+    public class UiCallback implements Callback<ImageResponse> {
+
+        @Override
+        public void success(ImageResponse imageResponse, Response response) {
+            /*getCode*/
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            //Assume we have no connection, since error is null
+            if (error == null) {
+                Snackbar.make(view.findViewById(R.id.recycler_view), "No internet connection", Snackbar.LENGTH_SHORT).show();
+            }
         }
     }
 
