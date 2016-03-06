@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -64,9 +66,13 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        Bitmap thumbImage = ThumbnailUtils.extractThumbnail(
-                BitmapFactory.decodeFile(itemList.get(position).getUri().getPath()),100,100);
-        holder.pictureView.setImageBitmap(thumbImage);
+//        Bitmap thumbImage = ThumbnailUtils.extractThumbnail(
+//                BitmapFactory.decodeFile(itemList.get(position).getUri().getPath()),100,100);
+//        holder.pictureView.setImageBitmap(thumbImage);
+        Picasso.with(context)
+                .load(itemList.get(position).getUri())
+                .resize(200,200)
+                .into(holder.pictureView);
         holder.pictureView.setTag(itemList.get(position).getUri());
         holder.itemView.setActivated(selectedItems.get(position, false));
     }

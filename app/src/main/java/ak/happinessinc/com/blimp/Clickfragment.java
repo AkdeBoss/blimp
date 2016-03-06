@@ -42,7 +42,6 @@ public class Clickfragment extends Fragment {
     static  final  int REQUEST_IMAGE_CAPTURE=1;
 
     private OnFragmentInteractionListener mListener;
-
     public Clickfragment() {
         // Required empty public constructor
     }
@@ -115,7 +114,6 @@ ImageView preview;
            DisplayPreview(IMGURI);
         }
     }
-
     public void DisplayPreview(Uri imageUri){
        preview.setImageURI(imageUri);
         System.out.println("\n\n\n1111111111\n\n"+imageUri.toString()+"\n\n\n");

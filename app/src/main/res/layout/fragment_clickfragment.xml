@@ -5,18 +5,35 @@
     tools:context="ak.happinessinc.com.blimp.Clickfragment"
     android:background="@color/cardview_shadow_end_color">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_menu_camera" />
-
-    <ImageView
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imageView"
-        android:layout_gravity="center" />
+        android:layout_height="457dp"
+        card_view:cardUseCompatPadding="true"
+        android:background="@android:drawable/dialog_holo_dark_frame">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="214dp"
+                android:layout_height="214dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/img_arrow"
+                android:layout_gravity="center" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="76dp"
+                android:layout_height="86dp"
+                android:layout_gravity="right|bottom"
+                android:layout_margin="@dimen/fab_margin"
+                android:background="@drawable/selector"
+                android:src="@android:drawable/ic_menu_camera" />
+
+        </FrameLayout>
+
+
+    </android.support.v7.widget.CardView>
 
 </FrameLayout>

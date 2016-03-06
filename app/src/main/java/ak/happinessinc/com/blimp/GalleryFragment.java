@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
 import android.view.GestureDetector;
@@ -104,7 +105,7 @@ public class GalleryFragment extends Fragment implements ActionMode.Callback,Rec
     }
 
     GridLayoutManager gridLayoutManager;
-
+    RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
     RecyclerViewAdapter recyclerAdapter;
     GestureDetectorCompat gestureDetector;
@@ -118,7 +119,7 @@ public class GalleryFragment extends Fragment implements ActionMode.Callback,Rec
         View rootView=inflater.inflate(R.layout.fragment_gallery, container, false);
         list=getAllItemList();
         gridLayoutManager = new GridLayoutManager(getContext(),4,GridLayoutManager.VERTICAL, false);
-        gridLayoutManager.setSmoothScrollbarEnabled(true);
+        layoutManager= new LinearLayoutManager(getContext());
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -131,8 +132,9 @@ public class GalleryFragment extends Fragment implements ActionMode.Callback,Rec
     }
 
     public void refresh(){
-        list=getAllItemList();
-        recyclerAdapter.notifyDataSetChanged();
+//        list.clear();
+//        list=getAllItemList();
+//        recyclerAdapter.notifyDataSetChanged();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
