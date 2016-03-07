@@ -39,6 +39,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import ak.happinessinc.com.blimp.R;
 import ak.happinessinc.com.blimp.helpers.PictureMetaData;
+import ak.happinessinc.com.blimp.helpers.StaticHelper;
 import ak.happinessinc.com.blimp.imgurmodel.Upload;
 import ak.happinessinc.com.blimp.viewholders.RecyclerViewHolder;
 
@@ -66,15 +67,13 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-//        Bitmap thumbImage = ThumbnailUtils.extractThumbnail(
-//                BitmapFactory.decodeFile(itemList.get(position).getUri().getPath()),100,100);
-//        holder.pictureView.setImageBitmap(thumbImage);
+
         Picasso.with(context)
                 .load(itemList.get(position).getUri())
                 .resize(200,200)
                 .into(holder.pictureView);
         holder.pictureView.setTag(itemList.get(position).getUri());
-        holder.itemView.setActivated(selectedItems.get(position, false));
+
     }
 
     @Override
@@ -88,9 +87,11 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewHolde
     public void toggleSelection(int pos) {
         if (selectedItems.get(pos, false)) {
             selectedItems.delete(pos);
+
         }
         else {
             selectedItems.put(pos, true);
+            StaticHelper.Flags.TOGGLE_FLAG=true;
         }
         notifyItemChanged(pos);
     }

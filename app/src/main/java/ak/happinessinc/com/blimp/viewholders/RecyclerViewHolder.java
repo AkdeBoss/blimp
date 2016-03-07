@@ -1,10 +1,13 @@
 package ak.happinessinc.com.blimp.viewholders;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +25,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
 
 
     public ImageView pictureView;
+    public CardView cardView;
 
     public RecyclerViewHolder(View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
         pictureView = (ImageView)itemView.findViewById(R.id.galleryActivity_photoiMageView);
+        cardView=(CardView) itemView.findViewById(R.id.card_view);
     }
     ArrayList<PictureMetaData> list;
     @Override
@@ -37,7 +42,15 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
                 list.add(new PictureMetaData((Uri) pictureView.getTag()));
                 intent.putParcelableArrayListExtra("pics", list);
                 view.getContext().startActivity(intent);
+            }
 
-            }}
+
+
+
+
+
+
+
+    }
 
 }

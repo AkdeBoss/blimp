@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -115,9 +117,11 @@ ImageView preview;
         }
     }
     public void DisplayPreview(Uri imageUri){
-       preview.setImageURI(imageUri);
-        System.out.println("\n\n\n1111111111\n\n"+imageUri.toString()+"\n\n\n");
-        Toast.makeText(getActivity().getApplicationContext(),imageUri.toString(),Toast.LENGTH_LONG).show();
+       //preview.setImageURI(imageUri);
+        Picasso.with(getContext())
+                .load(imageUri)
+                .into(preview);
+
     }
 
 
