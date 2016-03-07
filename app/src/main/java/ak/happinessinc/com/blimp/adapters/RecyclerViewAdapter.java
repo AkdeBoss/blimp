@@ -74,6 +74,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewHolde
                 .into(holder.pictureView);
         holder.pictureView.setTag(itemList.get(position).getUri());
 
+
     }
 
     @Override
@@ -85,15 +86,15 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewHolde
     private SparseBooleanArray selectedItems;
 
     public void toggleSelection(int pos) {
+        notifyItemChanged(pos);
         if (selectedItems.get(pos, false)) {
             selectedItems.delete(pos);
-
         }
         else {
             selectedItems.put(pos, true);
             StaticHelper.Flags.TOGGLE_FLAG=true;
         }
-        notifyItemChanged(pos);
+
     }
 
     public void clearSelections() {
